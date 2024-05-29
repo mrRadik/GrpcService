@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+option  csharp_namespace = "GrpcService.Infrastructure";
+
+import "google/protobuf/timestamp.proto";
+
+message GetFileRequest{
+  string fileGuid = 1;
+}
+
+message GetFileResponse{
+  string fileName = 1;
+  bytes data = 2;
+  google.protobuf.Timestamp creationDate = 3;
+  string extension = 4;
+  string guid = 5;
+}
+
+message GetAllFilesRequest{}
+
+message GetAllFilesResponse{
+  repeated GetFileResponse files = 1;
+}
+
+message DeleteFileRequest{
+  string fileGuid = 1;
+}
+
+message DeleteFileResponse{}
+
+message CreateFileRequest{
+  string fileName = 1;
+  bytes data = 2;
+  string extension = 3;
+}
+
+message CreateFileResponse{
+  int32 fileId = 1;
+}
+
+service FileService{
+  rpc GetFile(GetFileRequest) returns (GetFileResponse);
+  rpc GetAllFiles(GetAllFilesRequest) returns (GetAllFilesResponse);
+  rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
+  rpc CreateFile(CreateFileRequest) returns (CreateFileResponse);
+}
+
