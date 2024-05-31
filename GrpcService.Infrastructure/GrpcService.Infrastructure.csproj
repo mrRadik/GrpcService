@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\GrpcService.Application\GrpcService.Application.csproj" />
+      <ProjectReference Include="..\GrpcService.CodeFirst.Shared\GrpcService.CodeFirst.Shared.csproj" />
       <ProjectReference Include="..\GrpcService.Domain\GrpcService.Domain.csproj" />
     </ItemGroup>
 

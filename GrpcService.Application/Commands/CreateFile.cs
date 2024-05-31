@@ -24,16 +24,8 @@ public class CreateFileCommandHandler(IDbContext context) : IRequestHandler<Crea
             Extension = request.FileExtension,
         };
 
-        try
-        {
-            context.Files.Add(file);
-            await context.SaveChangesAsync(cancellationToken);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        context.Files.Add(file);
+        await context.SaveChangesAsync(cancellationToken);
 
         return file.Id;
     }

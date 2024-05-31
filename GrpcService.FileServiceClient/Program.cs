@@ -19,9 +19,10 @@ static class Program
         
         var host = Host.CreateDefaultBuilder().ConfigureServices((builder,services) =>
         {
-            services.AddTransient<IFileService, Services.FileServiceGrpc>();
+            services.AddTransient<IFileService, Services.FileService>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<frmMain>();
-            services.Configure<GrpcClientSettings>(builder.Configuration.GetSection("FileServiceClientSettings"));
+            services.Configure<GrpcClientSettings>(builder.Configuration.GetSection(nameof(GrpcClientSettings)));
         }).Build();
 
         Application.Run(host.Services.GetRequiredService<frmMain>());

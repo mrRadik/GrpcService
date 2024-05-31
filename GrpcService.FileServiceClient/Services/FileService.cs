@@ -6,11 +6,11 @@ using File = GrpcService.FileServiceClient.Models.File;
 
 namespace GrpcService.FileServiceClient.Services;
 
-internal class FileServiceGrpc : IFileService
+internal class FileService : IFileService
 {
-    private readonly FileService.FileServiceClient _client;
+    private readonly FileServiceClient.FileService.FileServiceClient _client;
     
-    public FileServiceGrpc(IOptions<GrpcClientSettings> options)
+    public FileService(IOptions<GrpcClientSettings> options)
     {
         var handler = new HttpClientHandler
         {
@@ -19,7 +19,7 @@ internal class FileServiceGrpc : IFileService
         
         var clientSettings = options.Value;
         var chanel = GrpcChannel.ForAddress($"{clientSettings.Url}:{clientSettings.Port}", new GrpcChannelOptions{HttpHandler = handler});
-        _client = new FileService.FileServiceClient(chanel);
+        _client = new FileServiceClient.FileService.FileServiceClient(chanel);
     }
     
     public async Task<File> GetFile(string guid)
@@ -59,7 +59,7 @@ internal class FileServiceGrpc : IFileService
 
         await _client.DeleteFileAsync(deleteFileRequest);
     }
-
+    
     private File Map(GetFileResponse file)
     {
         return new File

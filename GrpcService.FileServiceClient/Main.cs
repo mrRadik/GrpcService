@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using GrpcService.FileServiceClient.Models;
 using GrpcService.FileServiceClient.Services;
 using File = GrpcService.FileServiceClient.Models.File;
 
@@ -7,10 +8,12 @@ namespace GrpcService.FileServiceClient;
 internal partial class frmMain : Form
 {
     private readonly IFileService _fileService;
+    private readonly IEmailService _mailService;
 
-    public frmMain(IFileService fileService)
+    public frmMain(IFileService fileService, IEmailService mailService)
     {
         _fileService = fileService;
+        _mailService = mailService;
         InitializeComponent();
     }
 
@@ -20,7 +23,7 @@ internal partial class frmMain : Form
         {
             return;
         }
-        
+
         await AddFile(dlgOpen.FileName);
         await RefreshDataGrid();
     }
@@ -42,16 +45,16 @@ internal partial class frmMain : Form
     {
         var guid = GetFileGuid();
         var file = await _fileService.GetFile(guid);
-        
+
         dlgSave.FileName = file.Name;
         if (dlgSave.ShowDialog() == DialogResult.Cancel)
         {
             return;
         }
-        
+
         var filePath = dlgSave.FileName + file.Extension;
         await System.IO.File.WriteAllBytesAsync(filePath, file.Data);
-        
+
         MessageBox.Show("Файл сохранен", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
@@ -61,13 +64,13 @@ internal partial class frmMain : Form
         {
             var filesData = new BindingList<File>(await _fileService.GetAllFiles());
             var data = from f in filesData
-                select new
-                {
-                    Guid = f.FileGuid,
-                    Name = f.Name,
-                    Extension = f.Extension,
-                    CreationTime = f.CreationTime
-                };
+                       select new
+                       {
+                           Guid = f.FileGuid,
+                           Name = f.Name,
+                           Extension = f.Extension,
+                           CreationTime = f.CreationTime
+                       };
 
             dgvFiles.DataSource = data.ToList();
             btnDelete.Enabled = btnSave.Enabled = dgvFiles.Rows.Count > 0;
@@ -89,8 +92,31 @@ internal partial class frmMain : Form
 
     private string GetFileGuid()
     {
-        return dgvFiles.SelectedRows.Count == 0 
+        return dgvFiles.SelectedRows.Count == 0
             ? string.Empty
             : dgvFiles.SelectedRows[0].Cells["Guid"].Value.ToString()!;
+    }
+
+    private async void btnSend_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(txtTo.Text))
+        {
+            MessageBox.Show("Не заполнено поле To", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        
+        var guid = GetFileGuid();
+        var file = await _fileService.GetFile(guid);
+
+        var emailMessage = new EmailMessageDto
+        {
+            MailTo = txtTo.Text,
+            Subject = txtSubject.Text,
+            Body = txtBody.Text,
+            File = file
+        };
+
+        var response = await _mailService.SendEmail(emailMessage);
+        
+        MessageBox.Show($@"{response}", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 }

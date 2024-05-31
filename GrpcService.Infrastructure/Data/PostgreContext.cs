@@ -29,7 +29,6 @@ public class PostgreContext : DbContext, IDbContext
 
     private DbSet<FileEntity> SetFile()
     {
-        var a = Set<FileEntity>();
-        return a;
+        return Set<FileEntity>();
     }
 }

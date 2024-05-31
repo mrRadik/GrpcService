@@ -1,4 +1,5 @@
 ﻿using GrpcService.Application.Interfaces;
+using GrpcService.CodeFirst.Shared;
 using GrpcService.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,7 +16,8 @@ public static class DI
         services.AddScoped<IDbContext>(provider => provider.GetRequiredService<PostgreContext>());
         services.AddEntityFrameworkNpgsql();
         services.AddGrpc();
-
+        services.AddCodeFirst();
+        
         return services;
     }
 }
