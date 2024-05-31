@@ -43,6 +43,9 @@ partial class frmMain
         label2 = new Label();
         label1 = new Label();
         btnSend = new Button();
+        txtNewName = new TextBox();
+        label4 = new Label();
+        txtRename = new Button();
         ((System.ComponentModel.ISupportInitialize)dgvFiles).BeginInit();
         groupBox1.SuspendLayout();
         SuspendLayout();
@@ -103,9 +106,9 @@ partial class frmMain
         groupBox1.Controls.Add(txtTo);
         groupBox1.Controls.Add(label2);
         groupBox1.Controls.Add(label1);
-        groupBox1.Location = new Point(6, 456);
+        groupBox1.Location = new Point(12, 494);
         groupBox1.Name = "groupBox1";
-        groupBox1.Size = new Size(581, 262);
+        groupBox1.Size = new Size(581, 204);
         groupBox1.TabIndex = 7;
         groupBox1.TabStop = false;
         groupBox1.Text = "SendEmail";
@@ -115,7 +118,7 @@ partial class frmMain
         txtBody.Location = new Point(61, 85);
         txtBody.Multiline = true;
         txtBody.Name = "txtBody";
-        txtBody.Size = new Size(514, 170);
+        txtBody.Size = new Size(514, 113);
         txtBody.TabIndex = 5;
         // 
         // label3
@@ -161,7 +164,7 @@ partial class frmMain
         // 
         // btnSend
         // 
-        btnSend.Location = new Point(593, 483);
+        btnSend.Location = new Point(593, 521);
         btnSend.Name = "btnSend";
         btnSend.Size = new Size(75, 23);
         btnSend.TabIndex = 8;
@@ -169,11 +172,40 @@ partial class frmMain
         btnSend.UseVisualStyleBackColor = true;
         btnSend.Click += btnSend_Click;
         // 
+        // txtNewName
+        // 
+        txtNewName.Location = new Point(82, 452);
+        txtNewName.Name = "txtNewName";
+        txtNewName.Size = new Size(505, 23);
+        txtNewName.TabIndex = 10;
+        // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.Location = new Point(12, 455);
+        label4.Name = "label4";
+        label4.Size = new Size(64, 15);
+        label4.TabIndex = 9;
+        label4.Text = "New name";
+        // 
+        // txtRename
+        // 
+        txtRename.Location = new Point(593, 452);
+        txtRename.Name = "txtRename";
+        txtRename.Size = new Size(75, 23);
+        txtRename.TabIndex = 11;
+        txtRename.Text = "Rename";
+        txtRename.UseVisualStyleBackColor = true;
+        txtRename.Click += txtRename_Click;
+        // 
         // frmMain
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(675, 723);
+        ClientSize = new Size(675, 706);
+        Controls.Add(txtRename);
+        Controls.Add(txtNewName);
+        Controls.Add(label4);
         Controls.Add(btnSend);
         Controls.Add(groupBox1);
         Controls.Add(btnSave);
@@ -190,6 +222,7 @@ partial class frmMain
         groupBox1.ResumeLayout(false);
         groupBox1.PerformLayout();
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
@@ -208,4 +241,7 @@ partial class frmMain
     private Label label2;
     private Label label1;
     private Button btnSend;
+    private TextBox txtNewName;
+    private Label label4;
+    private Button txtRename;
 }

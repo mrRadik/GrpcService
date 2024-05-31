@@ -9,4 +9,5 @@ internal interface IFileService
     Task<List<File>> GetAllFiles();
     Task AddFile(File file);
     Task DeleteFile(string guid);
+    Task RenameFile(string guid, string newName);
 }

@@ -2,6 +2,7 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using GrpcService.Application.Commands;
+using GrpcService.Application.Models;
 using GrpcService.Application.Queries;
 using GrpcService.Domain.Entities;
 using MediatR;
@@ -61,22 +62,30 @@ public class FileServiceGrpc(ISender mediator) : FileService.FileServiceBase
         }
         catch(Exception ex)
         {
-            var a = ex.Message;
+            
         }
 
         return await Task.FromResult(new GetAllFilesResponse());
     }
 
-    private static GetFileResponse MapFileToResponse(FileEntity file)
+    public override async Task<RenameFileResponse> RenameFile(RenameFileRequest request, ServerCallContext context)
+    {
+        var renameFileCommand = new RenameFileCommand(request.NewFileName, new Guid(request.Guid));
+        await mediator.Send(renameFileCommand);
+        
+        return await Task.FromResult(new RenameFileResponse());
+    }
+
+    private static GetFileResponse MapFileToResponse(FileDto file)
     {
         var data = ByteString.CopyFrom(file.Data);
         return new GetFileResponse
         {
-            FileName = file.Name,
-            Extension = file.Extension,
+            FileName = file.FileName,
+            Extension = file.FileExtension,
             Data = data,
-            Guid = file.Guid.ToString(),
-            CreationDate = file.CreationTime.ToTimestamp()
+            Guid = file.FileGuid.ToString(),
+            CreationDate = file.CreationDate.ToTimestamp()
         };
     }
 }

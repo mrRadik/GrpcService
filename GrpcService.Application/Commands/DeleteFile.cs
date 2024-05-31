@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GrpcService.Application.Commands;
 
-public record DeleteFileCommand(Guid Guid) : IRequest;
+public record DeleteFileCommand(Guid Guid) : IRequest, IBaseCommand;
 
 public class DeleteFileCommandHandler(IDbContext context) : IRequestHandler<DeleteFileCommand>
 {
@@ -18,6 +18,5 @@ public class DeleteFileCommandHandler(IDbContext context) : IRequestHandler<Dele
         }
 
         context.Files.Remove(file);
-        await context.SaveChangesAsync(cancellationToken);
     }
 }

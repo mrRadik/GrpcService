@@ -38,10 +38,18 @@ message CreateFileResponse{
   int32 fileId = 1;
 }
 
+message RenameFileRequest{
+  string guid = 1;
+  string newFileName = 2;
+}
+
+message RenameFileResponse{}
+
 service FileService{
   rpc GetFile(GetFileRequest) returns (GetFileResponse);
   rpc GetAllFiles(GetAllFilesRequest) returns (GetAllFilesResponse);
   rpc DeleteFile(DeleteFileRequest) returns (DeleteFileResponse);
   rpc CreateFile(CreateFileRequest) returns (CreateFileResponse);
+  rpc RenameFile(RenameFileRequest) returns (RenameFileResponse);
 }
 

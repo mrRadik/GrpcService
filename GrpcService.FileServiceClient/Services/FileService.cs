@@ -59,7 +59,18 @@ internal class FileService : IFileService
 
         await _client.DeleteFileAsync(deleteFileRequest);
     }
-    
+
+    public async Task RenameFile(string guid, string newName)
+    {
+        var renameFileRequest = new RenameFileRequest
+        {
+            NewFileName = newName,
+            Guid = guid
+        };
+        
+        await _client.RenameFileAsync(renameFileRequest);
+    }
+
     private File Map(GetFileResponse file)
     {
         return new File

@@ -63,6 +63,7 @@ internal partial class frmMain : Form
         try
         {
             var filesData = new BindingList<File>(await _fileService.GetAllFiles());
+
             var data = from f in filesData
                        select new
                        {
@@ -103,7 +104,7 @@ internal partial class frmMain : Form
         {
             MessageBox.Show("Не заполнено поле To", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        
+
         var guid = GetFileGuid();
         var file = await _fileService.GetFile(guid);
 
@@ -116,7 +117,13 @@ internal partial class frmMain : Form
         };
 
         var response = await _mailService.SendEmail(emailMessage);
-        
+
         MessageBox.Show($@"{response}", "Информация", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    }
+
+    private async void txtRename_Click(object sender, EventArgs e)
+    {
+        await _fileService.RenameFile(GetFileGuid(), txtNewName.Text);
+        await RefreshDataGrid();
     }
 }
