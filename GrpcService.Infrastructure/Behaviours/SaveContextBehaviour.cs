@@ -2,15 +2,15 @@
 using GrpcService.Application.Interfaces;
 using MediatR;
 
-namespace GrpcService.Application.Behaviours;
+namespace GrpcService.Infrastructure.Behaviours;
 
-public class SaveContextBehaviour<TRequest, TResponse>(IDbContext context) : IPipelineBehavior<TRequest, TResponse>
+public class SaveContextBehaviour<TRequest, TResponse>(IDbContext context) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull 
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var response = await next.Invoke();
 
-        if (typeof(TRequest).GetInterface(nameof(IBaseCommand)) != null)
+        if (request is IBaseCommand)
         {
             await context.SaveChangesAsync(cancellationToken);
         }

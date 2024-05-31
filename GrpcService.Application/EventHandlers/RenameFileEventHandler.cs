@@ -11,6 +11,8 @@ public class RenameFileEventHandler(IFakeFileStorage fileStorage, ILogger<Rename
     {
         var file = notification.File;
         
+        //сделано в качесте тестового примера. в реальном проекте так делать не стоит, потому что это идет до сохранения
+        //контекста БД и если что то пойдет не так, то будет расхождение данных. Можно посмотреть в сторону шины
         fileStorage.RenameFile(file.Guid, file.Name);
         logger.LogInformation($"Файл {file.Name} был переименован");
         

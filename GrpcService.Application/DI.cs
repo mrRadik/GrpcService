@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
-using GrpcService.Application.Behaviours;
-using MediatR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GrpcService.Application;
@@ -13,8 +12,6 @@ public static class DI
         services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly());
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ExceptionBehaviour<,>));
-            cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(SaveContextBehaviour<,>));
         });
         
         return services;

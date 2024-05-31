@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 
-namespace GrpcService.Application.Behaviours;
+namespace GrpcService.Infrastructure.Behaviours;
 
 public class ExceptionBehaviour<TRequest, TResponse>(ILogger<TRequest> logger) 
     : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
